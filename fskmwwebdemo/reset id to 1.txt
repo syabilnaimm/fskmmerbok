@@ -1,0 +1,5 @@
+SET  @num := 0;
+
+UPDATE licdata SET bil = @num := (@num+1);
+
+ALTER TABLE licdata AUTO_INCREMENT =1;

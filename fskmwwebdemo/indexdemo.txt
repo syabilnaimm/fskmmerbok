@@ -1,0 +1,236 @@
+<?php 
+session_start();
+	
+	include_once('connect.php');
+
+	// initialize variables(not necessary)
+	$course_code = "";
+	$course_name = "";
+	$lect_id = "";
+	$lect_name = "";
+	$date_start="";
+	$date_end="";
+	$bil = 0;
+	$update = false;
+
+	if (isset($_POST['save'])) {
+		$course_code = $_POST['course_code'];
+		$course_name = $_POST['course_name'];
+		$lect_id = $_POST['lect_id'];
+		$lect_name = $_POST['lect_name'];
+		$date_start=date('Y-m-d',strtotime($_POST['date_start']));
+		$date_end=date('Y-m-d',strtotime($_POST['date_end']));
+
+		$query= "INSERT INTO licdata (course_code, course_name,lect_id,lect_name,date_start,date_end) VALUES ('$course_code', '$course_name','$lect_id','$lect_name','$date_start','$date_end')"; 
+		$query_run =mysqli_query($conn, $query);
+
+		if($query_run)
+		{
+			$_SESSION['status'] = "Data saved"; 
+			header('location: view.php');
+		}
+		else
+		{
+		echo "something went wrong";
+		
+		}
+
+	}
+	?>
+<html>
+<head>
+	<title>LIC</title>
+</head>
+<body>
+
+	<form method="post" action="" >
+
+		<div class="input-group">
+			 <label for="course_code">Course Code:</label>
+             <select name="course_code" id="course_code">
+             <option value="CSC116">CSC116</option>
+             <option value="CSC126">CSC126</option>
+             <option value="CSC134">CSC134</option>
+             <option value="CSC159">CSC159</option>
+			 <option value="CSC186">CSC186</option>
+			 <option value="CSC204">CSC204</option>
+			 <option value="CSC248">CSC248</option>
+			 <option value="CSC253">CSC253</option>
+			 <option value="CSC264">CSC264</option>
+		     <option value="CSC305">CSC305</option>
+			 <option value="CSC339">CSC339</option>
+			 <option value="CSC408">CSC408</option>
+			 <option value="ICT200">ICT200</option>
+			 <option value="ISP250">ISP250</option>
+			 <option value="ITT270">ITT270</option>
+			 <option value="ITT300">ITT300</option>
+			 <option value="ITT320">ITT320</option>
+
+            </select>
+ 		</div>
+		<div class="input-group">
+			 <label for="course_name">Course Name:</label>
+             <select name="course_name" id="course_name">
+             <option value="INTRODUCTION TO COMPUTERS AND PROGRAMMING">INTRODUCTION TO COMPUTERS AND PROGRAMMING</option>
+             <option value="FUNDAMENTALS OF ALGORITHMS AND COMPUTER PROBLEM SOLVING">FUNDAMENTALS OF ALGORITHMS AND COMPUTER PROBLEM SOLVING</option>
+             <option value="COMPUTER AND INFORMATION PROCESSING">COMPUTER AND INFORMATION PROCESSING</option>
+             <option value="COMPUTER ORGANIZATION">COMPUTER ORGANIZATION</option>
+			 <option value="OBJECT ORIENTED PROGRAMMING">OBJECT ORIENTED PROGRAMMING</option>
+			 <option value="PRACTICAL APPROACH OF OPERATING SYSTEMS">PRACTICAL APPROACH OF OPERATING SYSTEMS</option>
+			 <option value="FUNDAMENTAL OF DATA STRUCTURE">FUNDAMENTAL OF DATA STRUCTURE</option>
+			 <option value="INTERACTIVE MULTIMEDIA">INTERACTIVE MULTIMEDIA</option>
+			 <option value="WEB APPLICATION DEVELOPMENT">WEB APPLICATION DEVELOPMENT</option>
+			 <option value="PRORAMMING PARADIGMS">PRORAMMING PARADIGMS</option>
+			 <option value="PRACTICAL TRAINING">PRACTICAL TRAINING</option>
+			 <option value="MANAGEMENT INFORMATION SYSTEM">MANAGEMENT INFORMATION SYSTEM</option>
+			 <option value="INTRODUCTION TO DATABASE DESIGN">INTRODUCTION TO DATABASE DESIGN</option>
+			 <option value="INFORMATION SYSTEM DEVELOPMENT">INFORMATION SYSTEM DEVELOPMENT</option>
+			 <option value="DIGITAL ELECTRONIC">DIGITAL ELECTRONIC</option>
+			 <option value="INTRODUCTION TO DATA COMMUNICATION AND NETWORKING">INTRODUCTION TO DATA COMMUNICATION AND NETWORKING</option>
+			 <option value="INTRODUCTION TO COMPUTER SECURITY">INTRODUCTION TO COMPUTER SECURITY</option>
+		
+
+            </select>
+		</div>
+			<div class="input-group">
+			<label>Lecturer Id</label>
+			<input type="text" name="lect_id" value="">
+			  
+		</div>
+		<div class="input-group">
+
+		
+        <label for="browser">Lect Name:</label>
+        <input list="browsers" name="lect_name" id="browser">
+        <datalist id="browsers">
+        <option value="Edge">
+        <option value="Firefox">
+        <option value="Chrome">
+        <option value="Opera">
+        <option value="Safari">
+        </datalist>
+       
+       
+
+		</div>
+		
+		
+		<div class="input-group">
+			<label>Date Start</label>
+			<input type="date" name="date_start" value="">
+		</div>
+		<div class="input-group">
+			<label>Date End</label>
+			<input type="date" name="date_end" value="">
+		</div>
+
+
+
+		<div class="input-group">
+			<button class="btn" type="submit" name="save" >Save</button>
+		</div>
+	</form>
+</body>
+</html>
+<style>
+body {
+    font-size: 22px;
+
+}
+table{
+    width: 50%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    text-align: left;
+}
+tr {
+    border-bottom: 1px solid #cbcbcb;
+}
+th, td{
+    border: none;
+    height: 30px;
+    padding: 2px;
+}
+tr:hover {
+    background: #F5F5F5;
+}
+
+form {
+    width: 45%;
+    margin: 50px auto;
+    text-align: left;
+    padding: 20px; 
+    border: 1px solid #bbbbbb; 
+    border-radius: 5px;
+}
+
+.input-group {
+    margin: 20px 0px 10px 0px;
+
+
+	
+}
+
+.input-group label {
+    display: block;
+    text-align: left;
+    margin: 3px;
+}
+.input-group input {
+    height: 30px;
+    width: 93%;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+.btn {
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: #5F9EA0;
+    border: none;
+    border-radius: 5px;
+}
+.edit_btn {
+    text-decoration: none;
+    padding: 2px 5px;
+    background: #2E8B57;
+    color: white;
+    border-radius: 3px;
+}
+
+.del_btn {
+    text-decoration: none;
+    padding: 2px 5px;
+    color: white;
+    border-radius: 3px;
+    background: #800000;
+}
+.msg {
+    margin: 30px auto; 
+    padding: 10px; 
+    border-radius: 5px; 
+    color: #3c763d; 
+    background: #dff0d8; 
+    border: 1px solid #3c763d;
+    width: 50%;
+    text-align: center;
+
+}
+input,
+select,
+textarea {
+  width: 93%;
+   height: 30px;
+  border: 5px solid purple;
+  padding: 5px 10px;
+    font-size: 16px;
+ 
+
+  -ms-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+}
+</style>

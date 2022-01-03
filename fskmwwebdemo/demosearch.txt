@@ -1,0 +1,210 @@
+<html>
+
+<?php 
+session_start();
+
+    require_once("connect.php");
+
+    $query = " select * from licdata ";
+    $result = mysqli_query($conn,$query);
+
+
+	 $columns = array('course_code','course_name','lect_id','lect_name','session','date_start','date_end');
+     $column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : $columns[0];
+     $sort_order = isset($_GET['order']) && strtolower($_GET['order']) == 'desc' ? 'DESC' : 'ASC';
+
+  	 if ($result = $conn->query('SELECT * FROM licdata ORDER BY ' .  $column . ' ' . $sort_order)) {
+	// Some variables we need for the table.
+	$up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort_order); 
+	$asc_or_desc = $sort_order == 'ASC' ? 'desc' : 'asc';
+	$add_class = ' class="highlight"';
+
+if (isset($_SESSION['status'])): ?>
+	<div class="msg">
+		<?php 
+			echo $_SESSION['status']; 
+			unset($_SESSION['status']);
+		?>
+	</div>
+<?php endif ?>
+
+
+
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/viewcss.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+    <title>View Records</title>
+	<h1><a href="index.php">Add Data</a></h1>
+	
+                                <form action="" method="GET">
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </form>
+
+</head>
+<body class="bg-dark">
+
+                            <div class ="container">
+                            <table id="customers">
+
+                            <tr>
+                           
+                               <th><a href="view.php?column=course_code&order=<?php echo $asc_or_desc; ?>">Course Code<i class="fas fa-sort<?php echo $column == 'course_code' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					           <th><a href="view.php?column=course_name&order=<?php echo $asc_or_desc; ?>">Course Name<i class="fas fa-sort<?php echo $column == 'course_name' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					           <th><a href="view.php?column=lect_id&order=<?php echo $asc_or_desc; ?>">Lecturer ID<i class="fas fa-sort<?php echo $column == 'lect_id' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+							   <th><a href="view.php?column=lect_name&order=<?php echo $asc_or_desc; ?>">Lecturer Name<i class="fas fa-sort<?php echo $column == 'lect_name' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					           <th><a href="view.php?column=session&order=<?php echo $asc_or_desc; ?>">Session<i class="fas fa-sort<?php echo $column == 'session' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					           <th><a href="view.php?column=date_start&order=<?php echo $asc_or_desc; ?>"> Date Start<i class="fas fa-sort<?php echo $column == 'date_start' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+							   <th><a href="view.php?column=date_end&order=<?php echo $asc_or_desc; ?>"> Date End<i class="fas fa-sort<?php echo $column == 'date_end' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+								 
+                               <th> Edit  </th>
+                                
+							   <th> Delete </th>
+                            </tr>
+
+                            <?php 
+							
+                                    
+                                    while($row=mysqli_fetch_assoc($result))
+                                    {
+                                    
+                                        $course_code = $row['course_code'];
+                                        $course_name = $row['course_name'];
+                                        $lect_id = $row['lect_id'];
+										$lect_name = $row['lect_name'];
+										$session = $row['session'];
+										$date_start = $row['date_start'];
+										$date_end = $row['date_end'];
+                            ?>
+							<?php
+							        if(isset($_GET['search']))
+                                    {
+                                        $filtervalues = $_GET['search'];
+                                        $query = "SELECT * FROM licdata WHERE CONCAT(course_code,course_name,lect_id,lect_name,session,date_start,date_end) LIKE '%$filtervalues%' ";
+                                        $query_run = mysqli_query($conn, $query);
+
+                                        if(mysqli_num_rows($query_run) > 0)
+                                        {
+										?>
+                                    <tr>
+                                    
+                                     <td<?php echo $column == 'course_code' ? $add_class : ''; ?>><?php echo $row['course_code']; ?></td>
+					                 <td<?php echo $column == 'course_name' ? $add_class : ''; ?>><?php echo $row['course_name']; ?></td>
+					                 <td<?php echo $column == 'lect_id' ? $add_class : ''; ?>><?php echo $row['lect_id']; ?></td>
+									 <td<?php echo $column == 'lect_name' ? $add_class : ''; ?>><?php echo $row['lect_name']; ?></td>
+					                 <td<?php echo $column == 'session' ? $add_class : ''; ?>><?php echo $row['session']; ?></td>
+					                 <td<?php echo $column == 'date_start' ? $add_class : ''; ?>><?php echo $row['date_start']; ?></td>
+									 <td<?php echo $column == 'date_end' ? $add_class : ''; ?>><?php echo $row['date_end']; ?></td>
+									 
+
+				
+
+										<form method="post" action="edit.php" >
+										<input type="hidden" name="bil" value="<?php echo $row['bil'] ?>">
+										<td><button Onclick="return ConfirmEdit();" type="submit" name="edit" class="buttonedit" value="1">Edit</button></td>
+										</form>
+
+									    <form method="post" action="delete.php" >
+										<input type="hidden" name="bil" value="<?php echo $row['bil'] ?>">
+										<td><button Onclick="return ConfirmDelete();" type="submit" name="delete" class="buttondel" value="1">Delete</button></td>
+									
+                                      </form>
+                                    </tr>    
+									
+                                                <?php
+                                            
+                                        }
+									 else
+                                        {
+                                            ?>
+                                                <tr>
+                                                    <td colspan="4">No Record Found</td>
+                                                </tr>
+                                            <?php
+                                        }
+                                    }
+                                   
+                                ?>
+									
+                            <?php 
+                                    } 
+                            ?>   
+							
+                                   
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+</html>
+<?php
+	$result->free();
+}
+?>
+<script>
+    function ConfirmDelete()
+    {
+      var x = confirm("Are you sure you want to delete?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script>    
+
+<script>
+    function ConfirmEdit()
+    {
+      var x = confirm("Are you sure you want to edit this data?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script>   
+<style>
+.msg {
+  width:50%;
+  margin:20px auto;
+  padding:30px;
+  position:relative;
+  border-radius:5px;
+  box-shadow:0 0 15px 5px #ccc;
+  color: black; 
+  background: #dff0d8; 
+  font-size: 100%;
+  font-family: "Lucida Console", "Courier New", monospace;
+
+}
+
+th:hover {
+	background-color: #64686e;
+}
+th a {
+	display: block;
+	text-decoration:none;
+	padding: 10px;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 15px;
+}
+th a i {
+	margin-left: 5px;
+	color: rgba(255,255,255,0.4);
+}
+
+
+</style>

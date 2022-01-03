@@ -1,0 +1,118 @@
+﻿
+.msg{
+    margin: 30px auto; 
+    padding: 10px; 
+    border-radius: 5px; 
+    color: #3c763d; 
+    background: #dff0d8; 
+    border: 1px solid #3c763d;
+    width: 50%;
+    text-align: center;
+
+}
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+ 
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: left;
+  background-color: rgba(51, 0, 109, 0.85);;
+  color: white;
+ 
+}
+.container {
+width: 90%;
+height: auto;
+margin-right: auto;
+margin-left: auto;
+color: #066;
+
+}
+.buttonedit{
+  background-color: #A5EAEC ;
+  border: none;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid black;
+
+}
+.buttondel{
+  background-color: #FC8686;
+  border: none;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+ .button-21 {
+  align-items: center;
+  appearance: none;
+  background-color: #3EB2FD;
+  background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 100px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 2rem;
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  margin: 5px;
+
+}
+
+.button-21:active,
+.button-21:focus {
+  outline: none;
+}
+
+.button-21:hover {
+  background-position: -20px -20px;
+}
+
+.button-21:focus:not(:active) {
+  box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+}
